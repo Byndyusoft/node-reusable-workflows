@@ -1,36 +1,56 @@
-name: deploy workflow
+#
+# Copyright 2022 Byndyusoft
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
-      dry_run:
-        description: Dry run
+      node-active-lts-version:
+        required: false
+        type: string
+        default: "16"
+    secrets:
+      NPM_TOKEN:
         required: true
-        default: "false"
 
 jobs:
-  deploy:
-    name: deploy
+  ##############################################################################
+  prepare:
     runs-on: ubuntu-latest
+
+    outputs:
+      scripts: ${{ steps.prepare.outputs.scripts }}
+
     steps:
-      - name: checkout
-        uses: actions/checkout@v2
+      - id: prepare
+        uses: Byndyusoft/node-reusable-workflows/.github/actions/prepare@master
+
+  ##############################################################################
+  deploy:
+    needs: prepare
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: Byndyusoft/node-reusable-workflows/.github/actions/install@master
         with:
-          fetch-depth: 0
+          node-version: ${{ inputs.node-active-lts-version }}
 
-      - name: install nodejs
-        uses: actions/setup-node@v2
-        with:
-          node-version: "14"
-
-      - name: install dependencies
-        run: yarn install --production false --frozen-lockfile
-
-      - name: build
+      - if: fromJSON(needs.prepare.outputs.scripts)['build']
         run: yarn run build
 
-      - name: semantic release
-        run: yarn semantic-release --dry-run ${{ github.event.inputs.dry_run }}
+      - run: yarn semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

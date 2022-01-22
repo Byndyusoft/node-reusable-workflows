@@ -1,39 +1,51 @@
-# ᐸRepository nameᐳ
+# node-reusable-workflows
 
-[![npm@latest](https://img.shields.io/npm/v/@byndyusoft/base-template/latest.svg)](https://www.npmjs.com/package/@byndyusoft/base-template)
-[![test workflow](https://github.com/Byndyusoft/node-base-template/actions/workflows/test.yaml/badge.svg?branch=master)](https://github.com/Byndyusoft/node-base-template/actions/workflows/test.yaml)
+[![test](https://github.com/Byndyusoft/node-reusable-workflows/actions/workflows/test-myself.yaml/badge.svg?branch=master)](https://github.com/Byndyusoft/node-reusable-workflows/actions/workflows/test-myself.yaml)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
-[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
-ᐸRepository descriptionᐳ
+Reusable workflows for Node.js
 
 ## Requirements
 
-- Node.js v12 LTS or later
-- npm or yarn
-
-## Install
-
-```bash
-npm install ᐸPackage nameᐳ
-```
-
-or
-
-```bash
-yarn add ᐸPackage nameᐳ
-```
+- Node.js v14 LTS or later
+- yarn
 
 ## Usage
 
-```typescript
-// Usage example
+### .github/workflows/test.yaml
+
+```yaml
+name: test
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  test:
+    uses: Byndyusoft/node-reusable-workflows/.github/workflows/test.yaml@master
+```
+
+### .github/workflows/deploy.yaml
+
+```yaml
+name: deploy
+
+on:
+  - workflow_dispatch
+
+jobs:
+  deploy:
+    uses: Byndyusoft/node-reusable-workflows/.github/workflows/deploy.yaml@master
+    secrets:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 ```
 
 ## Maintainers
 
 - [@Byndyusoft/owners](https://github.com/orgs/Byndyusoft/teams/owners) <<github.maintain@byndyusoft.com>>
 - [@Byndyusoft/team](https://github.com/orgs/Byndyusoft/teams/team)
+- [@KillWolfVlad](https://github.com/KillWolfVlad)
 
 ## License
 

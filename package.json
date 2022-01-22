@@ -1,49 +1,37 @@
 {
-  "name": "@byndyusoft/base-template",
+  "name": "node-reusable-workflows",
   "version": "0.0.0-development",
-  "description": "Base template for Node.js packages",
-  "homepage": "https://github.com/Byndyusoft/node-base-template#readme",
+  "private": true,
+  "description": "Reusable workflows for Node.js",
+  "homepage": "https://github.com/Byndyusoft/node-reusable-workflows#readme",
   "bugs": {
-    "url": "https://github.com/Byndyusoft/node-base-template/issues"
+    "url": "https://github.com/Byndyusoft/node-reusable-workflows/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Byndyusoft/node-base-template.git"
+    "url": "https://github.com/Byndyusoft/node-reusable-workflows.git"
   },
   "license": "Apache-2.0",
   "author": "Byndyusoft",
   "scripts": {
-    "build": "echo '(・_・)ノ'",
     "postinstall": "husky install",
-    "lint": "yarn run lint:eslint && yarn run lint:markdown && yarn run lint:prettier",
-    "lint:eslint": "eslint --ignore-path ./.gitignore --max-warnings 0 --ext .ts,.js .",
-    "lint:eslint:fix": "eslint --ignore-path ./.gitignore --fix --ext .ts,.js .",
-    "lint:fix": "yarn run lint:eslint:fix && yarn run lint:markdown:fix && yarn run lint:prettier:fix",
+    "lint": "yarn run lint:markdown && yarn run lint:prettier",
+    "lint:fix": "yarn run lint:markdown:fix && yarn run lint:prettier:fix",
     "lint:markdown": "markdownlint --ignore-path ./.gitignore \"./**/*.md\"",
     "lint:markdown:fix": "markdownlint --ignore-path ./.gitignore --fix \"./**/*.md\"",
-    "lint:prettier": "prettier --ignore-path ./.gitignore --check \"./**/*.{ts,js,json,yaml,yml,md}\"",
-    "lint:prettier:fix": "prettier --ignore-path ./.gitignore --write \"./**/*.{ts,js,json,yaml,yml,md}\"",
-    "prepublishOnly": "pinst --disable",
-    "postpublish": "pinst --enable",
-    "test:cov": "echo '╮(˘､˘)╭'"
+    "lint:prettier": "prettier --ignore-path ./.gitignore --check \"./**/*.{json,yaml,yml,md}\"",
+    "lint:prettier:fix": "prettier --ignore-path ./.gitignore --write \"./**/*.{json,yaml,yml,md}\""
   },
   "devDependencies": {
-    "@byndyusoft/eslint-config": "^1.1.0",
     "@commitlint/cli": "^16.1.0",
     "@commitlint/config-conventional": "^16.0.0",
-    "eslint": "^7.32.0",
     "husky": "^7.0.4",
     "lint-staged": "^12.2.2",
     "markdownlint-cli": "^0.30.0",
-    "pinst": "^2.1.6",
     "prettier": "^2.5.1",
-    "prettier-plugin-packagejson": "^2.2.15",
-    "semantic-release": "^19.0.2"
+    "prettier-plugin-packagejson": "^2.2.15"
   },
   "engines": {
-    "node": ">=12"
-  },
-  "publishConfig": {
-    "access": "public"
+    "node": ">=14"
   }
 }

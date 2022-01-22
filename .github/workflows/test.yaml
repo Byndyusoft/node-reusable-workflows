@@ -1,33 +1,80 @@
-name: test workflow
+#
+# Copyright 2022 Byndyusoft
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
 
 on:
-  - push
-  - pull_request
+  workflow_call:
+    inputs:
+      node-maintenance-lts-version:
+        required: false
+        type: string
+        default: "14"
+      node-active-lts-version:
+        required: false
+        type: string
+        default: "16"
+      node-current-version:
+        required: false
+        type: string
+        default: "17"
 
 jobs:
-  test:
-    name: test
+  ##############################################################################
+  prepare:
+    runs-on: ubuntu-latest
+
+    outputs:
+      scripts: ${{ steps.prepare.outputs.scripts }}
+
+    steps:
+      - id: prepare
+        uses: Byndyusoft/node-reusable-workflows/.github/actions/prepare@master
+
+  ##############################################################################
+  unit-tests:
+    needs: prepare
+    runs-on: ${{ matrix.os }}
+    if: fromJSON(needs.prepare.outputs.scripts)['test:cov']
+
+    steps:
+      - uses: Byndyusoft/node-reusable-workflows/.github/actions/install@master
+        with:
+          node-version: ${{ matrix.node }}
+
+      - run: yarn run test:cov
 
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        node-version: ["12", "14", "16"]
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+        node:
+          - ${{ inputs.node-maintenance-lts-version }}
+          - ${{ inputs.node-active-lts-version }}
+          - ${{ inputs.node-current-version }}
 
-    runs-on: ${{ matrix.os }}
+  ##############################################################################
+  lint:
+    needs: prepare
+    runs-on: ubuntu-latest
+    if: fromJSON(needs.prepare.outputs.scripts)['lint']
+
     steps:
-      - name: checkout
-        uses: actions/checkout@v2
-
-      - name: install nodejs
-        uses: actions/setup-node@v2
+      - uses: Byndyusoft/node-reusable-workflows/.github/actions/install@master
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: ${{ inputs.node-active-lts-version }}
 
-      - name: install dependencies
-        run: yarn install --production false --frozen-lockfile --ignore-engines
-
-      - name: lint
-        run: yarn run lint
-
-      - name: test
-        run: yarn run test:cov
+      - run: yarn run lint
