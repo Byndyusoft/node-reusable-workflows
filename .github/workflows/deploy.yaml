@@ -45,6 +45,7 @@ jobs:
     steps:
       - uses: Byndyusoft/node-reusable-workflows/.github/actions/install@master
         with:
+          fetch-depth: "0"
           node-version: ${{ inputs.node-active-lts-version }}
 
       - if: fromJSON(needs.prepare.outputs.scripts)['build']
