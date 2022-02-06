@@ -18,6 +18,10 @@ name: install
 description: install
 
 inputs:
+  fetch-depth:
+    description: See https://github.com/actions/checkout#fetch-all-history-for-all-tags-and-branches
+    required: false
+    default: "1"
   node-version:
     description: See https://github.com/actions/setup-node#supported-version-syntax
     required: true
@@ -27,6 +31,8 @@ runs:
 
   steps:
     - uses: actions/checkout@v2
+      with:
+        fetch-depth: ${{ inputs.fetch-depth }}
 
     - uses: actions/setup-node@v2
       with:
