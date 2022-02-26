@@ -29,7 +29,7 @@ runs:
     - uses: actions/checkout@v2
 
     - id: detect-scripts
-      uses: actions/github-script@v5
+      uses: actions/github-script@v6
       with:
         script: |
           const fs = require("fs");
@@ -37,7 +37,7 @@ runs:
           const pjson = JSON.parse(fs.readFileSync("./package.json", "utf8"));
 
           const result = {};
-          const scripts = pjson.scripts || {};
+          const scripts = pjson.scripts ?? {};
 
           ["build", "lint", "test:cov"].map(
             (wellKnownScript) =>
