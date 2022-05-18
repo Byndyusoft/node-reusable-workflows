@@ -28,7 +28,7 @@ on:
       node-current-version:
         required: false
         type: string
-        default: "17"
+        default: "18"
 
 jobs:
   ##############################################################################
