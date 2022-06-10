@@ -20,7 +20,7 @@ on:
       node-active-lts-version:
         required: false
         type: string
-        default: "16"
+        default: "lts/*"
     secrets:
       NPM_TOKEN:
         required: true
