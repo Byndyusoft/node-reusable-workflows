@@ -23,13 +23,13 @@
     "lint:prettier:fix": "prettier --ignore-path ./.gitignore --write \"./**/*.{json,yaml,yml,md}\""
   },
   "devDependencies": {
-    "@commitlint/cli": "^16.2.1",
-    "@commitlint/config-conventional": "^16.2.1",
-    "husky": "^7.0.4",
-    "lint-staged": "^12.3.4",
+    "@commitlint/cli": "^17.0.2",
+    "@commitlint/config-conventional": "^17.0.2",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.1",
     "markdownlint-cli": "^0.31.1",
-    "prettier": "^2.5.1",
-    "prettier-plugin-packagejson": "^2.2.15"
+    "prettier": "^2.6.2",
+    "prettier-plugin-packagejson": "^2.2.18"
   },
   "engines": {
     "node": ">=14"
