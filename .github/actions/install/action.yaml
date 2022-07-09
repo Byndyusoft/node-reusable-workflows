@@ -42,5 +42,15 @@ runs:
     - run: corepack enable
       shell: bash
 
-    - run: yarn install --production false --frozen-lockfile --ignore-engines
-      shell: bash
+    - uses: actions/github-script@v6
+      with:
+        script: |
+          const fs = require("fs");
+
+          const pjson = JSON.parse(fs.readFileSync("./package.json", "utf8"));
+
+          if (!pjson.packageManager || pjson.packageManager.match(/yarn@1\./)) {
+            await exec.exec("yarn install --frozen-lockfile --ignore-engines");
+          } else {
+            await exec.exec("yarn install --immutable");
+          }
