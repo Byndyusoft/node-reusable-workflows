@@ -39,5 +39,8 @@ runs:
         node-version: ${{ inputs.node-version }}
         cache: yarn
 
+    - run: corepack enable
+      shell: bash
+
     - run: yarn install --production false --frozen-lockfile --ignore-engines
       shell: bash
