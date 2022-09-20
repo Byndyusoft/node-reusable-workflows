@@ -28,6 +28,7 @@ on:
 jobs:
   ##############################################################################
   prepare:
+    if: ${{!github.event.repository.is_template}}
     runs-on: ubuntu-latest
 
     outputs:
