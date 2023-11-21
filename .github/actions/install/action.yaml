@@ -38,6 +38,8 @@ runs:
       with:
         node-version: ${{ inputs.node-version }}
         cache: yarn
+      env:
+        SKIP_YARN_COREPACK_CHECK: "true" # TODO: delete this when https://github.com/actions/setup-node/issues/899 is resolved
 
     - run: corepack enable
       shell: bash
